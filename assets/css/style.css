@@ -1,0 +1,67 @@
+:root {
+	--color-main: #1d1c20;
+	--color-accent: #3200ca;
+	--color-base: #fff;
+	--color-black: #000;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-size: 1.6rem;
+}
+
+img {
+	width: 100%;
+}
+
+input {
+	width: 100%;
+}
+
+input:focus {
+	outline: .1rem solid var(--color-accent);
+}
+
+/* 共通のクラス */
+.auth__container {
+	background-color: var(--color-base);
+	margin: 0 auto;
+	max-width: 400px;
+	padding: 2rem;
+	border-radius: 1rem;
+	margin-top: 100px;
+}
+
+.title {
+	font-size: 1.8rem;
+	font-weight: 600;
+	text-align: center;
+}
+
+.input {
+	padding: 1rem 2rem;
+	border-radius: 1rem;
+	border: 0.1rem solid var(--color-main);
+}
+
+.input:not(:last-child) {
+	margin-bottom: 2rem;
+}
+
+.btn {
+	width: 100px;
+	background-color: var(--color-accent);
+	padding: 1rem;
+	border-radius: 5rem;
+	color: var(--color-base);
+	font-size: 1.4rem;
+	font-weight: 600;
+	transition: all 0.3s;
+}
+
+.btn:hover {
+	opacity: 0.7;
+}
