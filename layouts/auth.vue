@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav>カスタムレイアウト</nav>
+    <BeforeLoingHeader />
     <slot />
   </div>
 </template>

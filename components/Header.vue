@@ -1,9 +1,7 @@
 <template>
   <header class="header">
-    <div class="header__container p-5">
-      <div class="header__logo">
-        <img src="/img/logo.png" alt="" class="header__logo-img" />
-      </div>
+    <div class="header__container">
+      <Logo />
       <Navbar />
     </div>
   </header>
@@ -17,9 +15,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      &.logged-in {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
-    &__logo {
-      width: 100px;
+  }
+  @media screen and (min-width: 769px) {
+    .header {
+      &__container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   }
 </style>

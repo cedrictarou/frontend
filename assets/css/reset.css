@@ -52,3 +52,9 @@ h6 {
 #__next {
 	isolation: isolate
 }
+
+label,
+textarea,
+input {
+	display: block;
+}

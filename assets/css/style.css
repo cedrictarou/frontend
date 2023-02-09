@@ -3,6 +3,7 @@
 	--color-accent: #3200ca;
 	--color-base: #fff;
 	--color-black: #000;
+	--color-grey: #6d6d6d;
 }
 
 html {
@@ -11,6 +12,8 @@ html {
 
 body {
 	font-size: 1.6rem;
+	color: var(--color-base);
+	background-color: var(--color-main);
 }
 
 img {

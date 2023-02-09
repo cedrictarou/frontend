@@ -2,23 +2,47 @@
   <nav class="nav">
     <ul class="nav__list-group">
       <li class="nav__list-item">
-        <NuxtLink to="/register">新規登録</NuxtLink>
+        <NuxtLink to="/posts">
+          <font-awesome-icon icon="fa-solid fa-house" />
+          <span class="nav__list-text">ホーム</span>
+        </NuxtLink>
       </li>
-      <li class="nav__list-item"><NuxtLink to="/login">ログイン</NuxtLink></li>
-      <!-- todo 後でログイン用にカスタマイズ -->
-      <li class="nav__list-item"><NuxtLink to="/">ログアウト</NuxtLink></li>
+      <li class="nav__list-item">
+        <button>
+          <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+          <span class="nav__list-text">ログアウト</span>
+        </button>
+      </li>
     </ul>
   </nav>
 </template>
 
+<script setup lang="ts"></script>
+
 <style lang="scss" scoped>
   .nav {
-    color: var(--color-base);
     &__list-group {
       display: flex;
     }
     &__list-item:not(:last-child) {
       margin-right: 2rem;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .nav {
+      margin-top: 2rem;
+      &__list-group {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      &__list-item {
+        margin-left: 1rem;
+      }
+      &__list-text {
+        margin-left: 1rem;
+      }
     }
   }
 </style>

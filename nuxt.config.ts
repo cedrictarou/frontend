@@ -1,6 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	css: ['/assets/css/reset.css', '/assets/css/style.css'],
+	build: {
+		transpile: [
+			"@fortawesome/vue-fontawesome",
+			"@fortawesome/fontawesome-svg-core",
+			"@fortawesome/free-brands-svg-icons",
+		],
+	},
+	css: ['/assets/css/reset.css', '/assets/css/style.css', '@fortawesome/fontawesome-svg-core/styles.css'],
 	modules: ['@nuxtjs/tailwindcss'],
 	app: {
 		head: {
@@ -17,7 +24,10 @@ export default defineNuxtConfig({
 				{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
 			]
 		},
-	}
+	},
+	plugins: [
+		'@/plugins/fontawesome.ts'
+	],
 
 
 })
