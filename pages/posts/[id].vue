@@ -18,7 +18,12 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  definePageMeta({
+    // ログイン登録していないとこのページを表示しない
+    middleware: "auth",
+  });
+</script>
 
 <style lang="scss" scoped>
   .comment {

@@ -61,9 +61,11 @@
     email: "required|email",
     password: "required|min:6",
   });
-
-  const sendRegisterData = (values: any) => {
-    console.log(values);
+  const { register } = useAuth();
+  const router = useRouter();
+  const sendRegisterData = async () => {
+    const result = await register(registerData.email, registerData.password);
+    result && router.push("/posts");
   };
 </script>
 

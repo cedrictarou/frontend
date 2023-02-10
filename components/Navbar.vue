@@ -8,7 +8,7 @@
         </NuxtLink>
       </li>
       <li class="nav__list-item">
-        <button>
+        <button @click="logout">
           <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
           <span class="nav__list-text">ログアウト</span>
         </button>
@@ -17,7 +17,16 @@
   </nav>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const router = useRouter();
+
+  const { signOut } = useAuth();
+
+  const logout = async () => {
+    const result = await signOut();
+    result && router.push("/auth/login");
+  };
+</script>
 
 <style lang="scss" scoped>
   .nav {

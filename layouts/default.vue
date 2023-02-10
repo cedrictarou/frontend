@@ -1,16 +1,18 @@
 <template>
-  <div class="container">
-    <!-- 左側に来る -->
-    <div class="side__container">
-      <Header />
-      <Share />
-    </div>
+  <client-only>
+    <div class="container">
+      <!-- 左側に来る -->
+      <div class="side__container">
+        <Header />
+        <Share />
+      </div>
 
-    <!-- 中央に来る -->
-    <div class="main__container">
-      <slot />
+      <!-- 中央に来る -->
+      <main class="main__container">
+        <slot />
+      </main>
     </div>
-  </div>
+  </client-only>
 </template>
 
 <style lang="scss" scoped>

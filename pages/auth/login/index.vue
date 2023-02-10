@@ -46,9 +46,11 @@
     email: "required|email",
     password: "required",
   });
-
-  const sendLoginData = (values: any) => {
-    console.log(values);
+  const { login } = useAuth();
+  const router = useRouter();
+  const sendLoginData = async () => {
+    const result = await login(loginData.email, loginData.password);
+    result && router.push("/posts");
   };
 </script>
 

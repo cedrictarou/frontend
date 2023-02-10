@@ -1,6 +1,8 @@
 <template>
   <div>
     <BeforeLoingHeader />
-    <slot />
+    <main>
+      <slot />
+    </main>
   </div>
 </template>
