@@ -1,5 +1,5 @@
 :root {
-	--color-main: #1d1c20;
+	--color-main: #1d0b54;
 	--color-accent: #3200ca;
 	--color-base: #fff;
 	--color-black: #000;
@@ -29,7 +29,7 @@ input:focus {
 }
 
 /* 共通のクラス */
-.auth__container {
+/* .auth__container {
 	background-color: var(--color-base);
 	margin: 0 auto;
 	max-width: 400px;
@@ -52,7 +52,7 @@ input:focus {
 
 .input:not(:last-child) {
 	margin-bottom: 2rem;
-}
+} */
 
 .btn {
 	width: 100px;
