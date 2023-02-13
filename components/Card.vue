@@ -1,27 +1,36 @@
 <template>
   <div class="card">
     <div class="card__top">
-      <span class="card__user-name">テストユーザー</span>
+      <span class="card__user-name">{{ name }}</span>
       <ul class="card__icon-group">
         <li class="card__like-icon">
           <font-awesome-icon icon="fa-solid fa-heart" />
-          <span class="card__like-count ml-3">0</span>
+          <span class="card__like-count ml-3">{{ numLike }}</span>
         </li>
         <li class="card__undo-icon">
           <font-awesome-icon icon="fa-solid fa-circle-xmark" />
         </li>
         <li class="card__to-comment">
-          <font-awesome-icon icon="fa-solid fa-share" />
+          <nuxt-link :to="`/posts/${routeParam}`">
+            <font-awesome-icon icon="fa-solid fa-share" />
+          </nuxt-link>
         </li>
       </ul>
     </div>
     <div class="card__body">
-      <p class="card__text">最近暇だなー</p>
+      <p class="card__text">{{ content }}</p>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const { content, routeParam, name, numLike } = defineProps<{
+    content: string;
+    routeParam: number;
+    name: string;
+    numLike: number;
+  }>();
+</script>
 
 <style lang="scss" scoped>
   .card {

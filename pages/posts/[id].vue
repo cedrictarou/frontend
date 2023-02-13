@@ -3,7 +3,13 @@
     <div class="comment__container">
       <div class="comment__top">
         <PostHeader />
-        <Card />
+        <Card
+          :content="post.content"
+          :route-param="post.id"
+          :name="post.user.name"
+          :num-like="post.numLike"
+        />
+
         <CommentInput />
       </div>
 
@@ -23,6 +29,14 @@
     // ログイン登録していないとこのページを表示しない
     middleware: "auth",
   });
+
+  const { posts } = usePosts();
+  const router = useRoute();
+  const id = Number(router.params.id);
+  const post = computed(() => {
+    return posts.value.filter((post) => post.id === id)[0];
+  });
+  console.log(post.value);
 </script>
 
 <style lang="scss" scoped>

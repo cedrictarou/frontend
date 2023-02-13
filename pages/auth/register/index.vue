@@ -64,8 +64,31 @@
   const { register } = useAuth();
   const router = useRouter();
   const sendRegisterData = async () => {
-    const result = await register(registerData.email, registerData.password);
-    result && router.push("/posts");
+    try {
+      //tokenの作成
+      const result = await register(registerData.email, registerData.password);
+      // const result = true;
+      if (result) {
+        try {
+          //laravelとの通信
+          const { data: message } = await useFetch(
+            "http://127.0.0.1:8000/api/v1/users",
+            {
+              method: "POST",
+              body: registerData,
+            }
+          );
+          console.log(message.value);
+          router.push("/posts");
+        } catch (error) {
+          console.log(error);
+          router.push("/auth/register");
+        }
+      } else router.push("/auth/register");
+    } catch (error) {
+      console.log(error);
+      router.push("/auth/register");
+    }
   };
 </script>
 
