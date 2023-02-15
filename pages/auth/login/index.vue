@@ -49,8 +49,9 @@
   const { login } = useAuth();
   const router = useRouter();
   const sendLoginData = async () => {
-    const result = await login(loginData.email, loginData.password);
-    result && router.push("/posts");
+    const userCredential = await login(loginData.email, loginData.password);
+    // ユーザーがすでに登録されていたら
+    userCredential && router.push("/posts");
   };
 </script>
 

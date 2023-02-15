@@ -15,7 +15,7 @@ export const useAuth = () => {
 			const userCredential = await createUserWithEmailAndPassword(auth, email, password)
 			const idToken = await userCredential.user.getIdToken()
 			token.value = idToken
-			return true
+			return userCredential
 		} catch (error: unknown) {
 			console.log(error)
 			switch (error.code) {
@@ -32,7 +32,7 @@ export const useAuth = () => {
 					alert('エラーが起きました。しばらくしてから再度お試しください。')
 					break
 			}
-			return false
+			// return false
 		}
 	}
 
@@ -42,7 +42,7 @@ export const useAuth = () => {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
 			const idToken = await userCredential.user.getIdToken()
 			token.value = idToken
-			return true
+			return userCredential
 		} catch (error: unknown) {
 			console.error(error)
 			switch (error.code) {
@@ -56,7 +56,6 @@ export const useAuth = () => {
 					alert('メールアドレスまたはパスワードが違います。')
 					break
 			}
-			return false
 		}
 	}
 

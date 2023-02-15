@@ -50,6 +50,7 @@
     name: string;
     email: string;
     password: string;
+    uid?: string;
   };
   const registerData = reactive<RegisterData>({
     name: "",
@@ -63,29 +64,30 @@
   });
   const { register } = useAuth();
   const router = useRouter();
+
   const sendRegisterData = async () => {
     try {
-      //tokenの作成
-      const result = await register(registerData.email, registerData.password);
-      // const result = true;
-      if (result) {
-        try {
-          //laravelとの通信
-          const { data: message } = await useFetch(
-            "http://127.0.0.1:8000/api/v1/users",
-            {
-              method: "POST",
-              body: registerData,
-            }
-          );
-          console.log(message.value);
-          router.push("/posts");
-        } catch (error) {
-          console.log(error);
-          router.push("/auth/register");
-        }
-      } else router.push("/auth/register");
+      const userCredential = await register(
+        registerData.email,
+        registerData.password
+      );
+      const uid = userCredential!.user.uid;
+      registerData["uid"] = uid;
+      //laravelとの通信
+      try {
+        await useFetch("http://127.0.0.1:8000/auth/register", {
+          method: "POST",
+          body: registerData,
+        });
+        // post一覧へ移動
+        router.push("/posts");
+      } catch (error) {
+        // laravelとの通信でエラーが出たら
+        console.log(error);
+        router.push("/auth/register");
+      }
     } catch (error) {
+      // firebase接続でエラーが出たら
       console.log(error);
       router.push("/auth/register");
     }
