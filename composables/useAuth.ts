@@ -8,12 +8,14 @@ import {
 
 export const useAuth = () => {
 	const token = useState<string>('token', () => null)
+	const currentUserUid = useState<string>('current_user', () => null)
 
 	async function register(email: string, password: string) {
 		try {
 			const auth = getAuth();
 			const userCredential = await createUserWithEmailAndPassword(auth, email, password)
 			const idToken = await userCredential.user.getIdToken()
+			currentUserUid.value= await userCredential.user.uid
 			token.value = idToken
 			return userCredential
 		} catch (error: unknown) {
@@ -42,6 +44,7 @@ export const useAuth = () => {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
 			const idToken = await userCredential.user.getIdToken()
 			token.value = idToken
+			currentUserUid.value= await userCredential.user.uid
 			return userCredential
 		} catch (error: unknown) {
 			console.error(error)
@@ -76,26 +79,25 @@ export const useAuth = () => {
 			// client only
 			if (process.server) return resolve()
 			const auth = getAuth()
+
 			onAuthStateChanged(
 				auth,
-				(user) => {
-					if (user) {
-						user
-							.getIdToken()
-							.then((idtoken) => {
-								token.value = idtoken
-								resolve()
-							})
-							.catch(reject)
-					} else {
-						token.value = null
-						resolve()
+				async (user) => {
+					try {
+						if (user) {
+								const idToken = await user.getIdToken();
+								token.value = idToken
+								currentUserUid.value = user.uid
+							} else {
+								token.value = null
+							}	
+							resolve()	
+					} catch (error) {
+						reject(error)
 					}
-				},
-				(error) => {
+				},(error)=>{
 					reject(error)
-				}
-			)
+				})
 		})
 	}
 	return {
@@ -104,5 +106,6 @@ export const useAuth = () => {
 		signOut,
 		token,
 		checkAuthState,
+		currentUserUid
 	}
 }

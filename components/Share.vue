@@ -3,11 +3,11 @@
     <div class="share__container">
       <ValidationForm @submit="sendContent" :validation-schema="schema">
         <label class="share__label mb-2" for="share_textarea">シェア</label>
-        <ValidationErrorMessage
+        <!-- <ValidationErrorMessage
           as="span"
           name="content"
           class="error-message"
-        />
+        /> -->
         <ValidationField
           class="share__textarea mb-5"
           id="share_textarea"
@@ -30,21 +30,33 @@
     content: "required|max:120",
   });
   const router = useRouter();
+  const { currentUserUid } = useAuth();
+  const { updatePosts } = usePosts();
+
   const sendContent = async () => {
     const sendData = {
-      id: 29,
+      uid: currentUserUid.value,
       content: content.value,
     };
-    const { data: message } = await useFetch(
-      "http://127.0.0.1:8000/api/v1/posts",
-      {
-        method: "POST",
-        body: sendData,
-      }
-    );
-    console.log(message.value);
-    router.push("/");
+
+    // nuxtで投稿を追加する
+    const newPost = {
+      id: Date.now(),
+      content: content.value,
+      name: "test",
+      numLike: 0,
+    };
+    updatePosts(newPost);
+
+    // laravelに投稿追加のデータを送る
+    await useFetch("http://127.0.0.1:8000/api/v1/posts", {
+      method: "POST",
+      body: sendData,
+    });
     content.value = "";
+    // textareaの初期化
+
+    router.push("/posts");
   };
 </script>
 

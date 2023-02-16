@@ -2,12 +2,12 @@
   <div class="post">
     <div class="post__container">
       <PostHeader />
-      <div class="card-group" v-for="post in newPosts" :key="post.id">
+      <div class="card-group" v-for="post in reversedPosts" :key="post.id">
         <NuxtLink :to="`/posts/${post.id}`">
           <Card
             :content="post.content"
             :route-param="post.id"
-            :name="post.user.name"
+            :name="post.name"
             :num-like="post.numLike"
           />
         </NuxtLink>
@@ -18,16 +18,19 @@
 
 <script setup>
   definePageMeta({
-    // ログイン登録していないとこのページを表示しない
-    middleware: "auth",
+    // middleware: ["auth", "posts"],
+    middleware: ["auth"],
   });
-  // apiからpostsを取得する
-  const { posts, updatePosts } = usePosts();
+  const { posts, getPosts } = usePosts();
+
+  // postsをAPIから取得する
   const { data } = await useFetch("http://127.0.0.1:8000/api/v1/posts/");
   const newPosts = data.value.posts;
-  // postsの配列を更新する
-  updatePosts(newPosts);
-  console.log("newPostsArray", posts.value);
+  getPosts(newPosts);
+  // postsを後ろから並ばせる
+  const reversedPosts = computed(() => {
+    return posts.value.slice().reverse();
+  });
 </script>
 
 <style lang="scss" scoped>
