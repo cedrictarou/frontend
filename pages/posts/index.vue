@@ -18,7 +18,6 @@
 
 <script setup>
   definePageMeta({
-    // middleware: ["auth", "posts"],
     middleware: ["auth"],
   });
   const { posts, getPosts } = usePosts();

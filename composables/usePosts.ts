@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 type Post = {
 	id?: number,
 	content: string,
-	name:string,
+	name:string | null,
 	numLike:number,
 }
 

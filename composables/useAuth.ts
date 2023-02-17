@@ -4,18 +4,30 @@ import {
 	signOut as firebaseSignOut,
 	onAuthStateChanged,
 	createUserWithEmailAndPassword,
+	updateProfile
 } from 'firebase/auth'
 
 export const useAuth = () => {
 	const token = useState<string>('token', () => null)
-	const currentUserUid = useState<string>('current_user', () => null)
 
-	async function register(email: string, password: string) {
+	function getCurrentUser(){
+		try {
+			const auth = getAuth();
+			const currentUser = auth.currentUser
+			return currentUser
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	async function register(name:string,email: string, password: string) {
 		try {
 			const auth = getAuth();
 			const userCredential = await createUserWithEmailAndPassword(auth, email, password)
 			const idToken = await userCredential.user.getIdToken()
-			currentUserUid.value= await userCredential.user.uid
+			await updateProfile(userCredential.user, {
+				displayName:name
+			})
 			token.value = idToken
 			return userCredential
 		} catch (error: unknown) {
@@ -44,7 +56,6 @@ export const useAuth = () => {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
 			const idToken = await userCredential.user.getIdToken()
 			token.value = idToken
-			currentUserUid.value= await userCredential.user.uid
 			return userCredential
 		} catch (error: unknown) {
 			console.error(error)
@@ -87,7 +98,6 @@ export const useAuth = () => {
 						if (user) {
 								const idToken = await user.getIdToken();
 								token.value = idToken
-								currentUserUid.value = user.uid
 							} else {
 								token.value = null
 							}	
@@ -106,6 +116,6 @@ export const useAuth = () => {
 		signOut,
 		token,
 		checkAuthState,
-		currentUserUid
+		getCurrentUser,
 	}
 }

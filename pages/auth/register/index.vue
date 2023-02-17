@@ -68,11 +68,12 @@
   const sendRegisterData = async () => {
     try {
       const userCredential = await register(
+        registerData.name,
         registerData.email,
         registerData.password
       );
-      const uid = userCredential!.user.uid;
-      registerData["uid"] = uid;
+
+      registerData["uid"] = userCredential!.user.uid;
       //laravelとの通信
       try {
         await useFetch("http://127.0.0.1:8000/auth/register", {

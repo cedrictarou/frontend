@@ -30,12 +30,14 @@
     content: "required|max:120",
   });
   const router = useRouter();
-  const { currentUserUid } = useAuth();
+  const { getCurrentUser } = useAuth();
   const { updatePosts } = usePosts();
 
+  // ユーザー情報をfirebaseから取得
+  const currentUser = getCurrentUser();
   const sendContent = async () => {
     const sendData = {
-      uid: currentUserUid.value,
+      uid: currentUser!.uid,
       content: content.value,
     };
 
@@ -43,7 +45,7 @@
     const newPost = {
       id: Date.now(),
       content: content.value,
-      name: "test",
+      name: currentUser!.displayName ?? "guest user",
       numLike: 0,
     };
     updatePosts(newPost);
@@ -53,8 +55,9 @@
       method: "POST",
       body: sendData,
     });
-    content.value = "";
+
     // textareaの初期化
+    content.value = "";
 
     router.push("/posts");
   };
