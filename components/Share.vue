@@ -25,6 +25,8 @@
 </template>
 
 <script setup lang="ts">
+  import type { Post } from "@/composables/usePosts";
+
   const content = ref("");
   const schema = reactive({
     content: "required|max:120",
@@ -37,25 +39,17 @@
   const currentUser = getCurrentUser();
   const sendContent = async () => {
     const sendData = {
-      uid: currentUser!.uid,
+      email: currentUser!.email,
       content: content.value,
     };
-
-    // nuxtで投稿を追加する
-    const newPost = {
-      id: Date.now(),
-      content: content.value,
-      name: currentUser!.displayName ?? "guest user",
-      numLike: 0,
-    };
-    updatePosts(newPost);
-
     // laravelに投稿追加のデータを送る
-    await useFetch("http://127.0.0.1:8000/api/v1/posts", {
+    const { data }: any = await useFetch("http://127.0.0.1:8000/api/v1/posts", {
       method: "POST",
       body: sendData,
     });
-
+    // postsをアップデート
+    const newPost = data.value.data as Post;
+    updatePosts(newPost);
     // textareaの初期化
     content.value = "";
 

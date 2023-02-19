@@ -1,18 +1,19 @@
 import type { Ref } from 'vue'
-type Post = {
-	id?: number,
+export type Post = {
+	id: number,
 	content: string,
-	name:string | null,
-	numLike:number,
+	name: string,
+	numLike: number,
 }
 
 export const usePosts = () => {
 	const posts: Ref<Post[]> = useState('posts', () => [])
-	const getPosts = (newPosts: Post[]) => {
+	const setPosts = (newPosts: Post[]) => {
 		// postsの初期化
 		posts.value = []
 		// 配列を追加
 		posts.value.push(...newPosts)
+		return posts.value
 	}
 	const updatePosts = (newPost: Post) => {
 		// 配列を追加
@@ -20,7 +21,7 @@ export const usePosts = () => {
 	}
 	return {
 		posts: readonly(posts),
-		getPosts,
+		setPosts,
 		updatePosts
 	}
 }

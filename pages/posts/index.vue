@@ -20,15 +20,16 @@
   definePageMeta({
     middleware: ["auth"],
   });
-  const { posts, getPosts } = usePosts();
+  const { setPosts } = usePosts();
 
   // postsをAPIから取得する
   const { data } = await useFetch("http://127.0.0.1:8000/api/v1/posts/");
   const newPosts = data.value.posts;
-  getPosts(newPosts);
+  const posts = setPosts(newPosts);
+
   // postsを後ろから並ばせる
   const reversedPosts = computed(() => {
-    return posts.value.slice().reverse();
+    return posts.slice().reverse();
   });
 </script>
 

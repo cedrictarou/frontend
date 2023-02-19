@@ -6,7 +6,7 @@
         <Card
           :content="post.content"
           :route-param="post.id"
-          :name="post.user.name"
+          :name="post.name"
           :num-like="post.numLike"
         />
 
@@ -25,18 +25,28 @@
 </template>
 
 <script setup lang="ts">
+  import type { Post } from "~~/composables/usePosts";
+
   definePageMeta({
-    // ログイン登録していないとこのページを表示しない
     middleware: "auth",
   });
-
-  const { posts } = usePosts();
   const router = useRoute();
-  const id = Number(router.params.id);
-  const post = computed(() => {
-    return posts.value.filter((post) => post.id === id)[0];
-  });
-  console.log(post.value);
+  const post = ref<Post>({});
+
+  // postsをAPIから取得する
+  const { data } = await useFetch(
+    `http://127.0.0.1:8000/api/v1/posts/${router.params.id}`
+  );
+  // 存在しないページのとき
+  if (!data.value) {
+    throw createError({
+      statusCode: 404,
+      message: "お探しの記事が見つかりませんでした",
+      fatal: true,
+    });
+  } else {
+    post.value = data.value.data;
+  }
 </script>
 
 <style lang="scss" scoped>

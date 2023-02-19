@@ -93,6 +93,8 @@
       router.push("/auth/register");
     }
   };
+
+  // localストレージにユーザー情報を保存する
 </script>
 
 <style lang="scss" scoped>
