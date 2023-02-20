@@ -5,10 +5,11 @@
       <div class="card-group" v-for="post in reversedPosts" :key="post.id">
         <NuxtLink :to="`/posts/${post.id}`">
           <Card
+            :id="post.id"
             :content="post.content"
-            :route-param="post.id"
             :name="post.name"
-            :num-like="post.numLike"
+            :like-count="post.likeCount"
+            :liked-by-user="post.likedByUser"
           />
         </NuxtLink>
       </div>
@@ -25,6 +26,7 @@
   // postsをAPIから取得する
   const { data } = await useFetch("http://127.0.0.1:8000/api/v1/posts/");
   const newPosts = data.value.posts;
+  console.log(newPosts);
   const posts = setPosts(newPosts);
 
   // postsを後ろから並ばせる

@@ -3,7 +3,8 @@ export type Post = {
 	id: number,
 	content: string,
 	name: string,
-	numLike: number,
+	likeCount: number,
+	likedByUser: boolean,
 }
 
 export const usePosts = () => {

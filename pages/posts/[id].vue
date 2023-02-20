@@ -4,10 +4,11 @@
       <div class="comment__top">
         <PostHeader />
         <Card
+          :id="post.id"
           :content="post.content"
-          :route-param="post.id"
           :name="post.name"
-          :num-like="post.numLike"
+          :like-count="post.likeCount"
+          :liked-by-user="post.likedByUser"
         />
 
         <CommentInput />
@@ -31,7 +32,7 @@
     middleware: "auth",
   });
   const router = useRoute();
-  const post = ref<Post>({});
+  const post = ref<Post>();
 
   // postsをAPIから取得する
   const { data } = await useFetch(

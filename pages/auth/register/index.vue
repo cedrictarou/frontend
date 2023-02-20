@@ -28,7 +28,7 @@
         <ValidationField
           name="password"
           class="input"
-          type="passwrod"
+          type="password"
           placeholder="パスワード"
           v-model="registerData.password"
         />
