@@ -4,7 +4,6 @@ export type Post = {
 	content: string,
 	name: string,
 	likeCount: number,
-	likedByUser: boolean,
 }
 
 export const usePosts = () => {

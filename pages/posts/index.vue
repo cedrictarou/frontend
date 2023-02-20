@@ -9,7 +9,6 @@
             :content="post.content"
             :name="post.name"
             :like-count="post.likeCount"
-            :liked-by-user="post.likedByUser"
           />
         </NuxtLink>
       </div>
@@ -22,11 +21,13 @@
     middleware: ["auth"],
   });
   const { setPosts } = usePosts();
-
+  const { getCurrentUser } = useAuth();
+  const currentUser = getCurrentUser();
   // postsをAPIから取得する
   const { data } = await useFetch("http://127.0.0.1:8000/api/v1/posts/");
   const newPosts = data.value.posts;
-  console.log(newPosts);
+  const likes = data.value.likes;
+  console.log(likes);
   const posts = setPosts(newPosts);
 
   // postsを後ろから並ばせる

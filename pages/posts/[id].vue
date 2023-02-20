@@ -4,11 +4,10 @@
       <div class="comment__top">
         <PostHeader />
         <Card
-          :id="post.id"
-          :content="post.content"
-          :name="post.name"
-          :like-count="post.likeCount"
-          :liked-by-user="post.likedByUser"
+          :id="post!.id"
+          :content="post!.content"
+          :name="post!.name"
+          :like-count="post!.likeCount"
         />
 
         <CommentInput />
@@ -26,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-  import type { Post } from "~~/composables/usePosts";
+  import type { Post } from "~/composables/usePosts";
 
   definePageMeta({
     middleware: "auth",

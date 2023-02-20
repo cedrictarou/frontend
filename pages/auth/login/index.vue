@@ -48,6 +48,7 @@
   });
   const { login } = useAuth();
   const router = useRouter();
+
   const sendLoginData = async () => {
     const userCredential = await login(loginData.email, loginData.password);
     // ユーザーがすでに登録されていたら

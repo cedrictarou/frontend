@@ -4,8 +4,7 @@
       <span class="card__user-name">{{ name }}</span>
       <ul class="card__icon-group">
         <li class="card__like-icon" @click="clickLike(id)">
-          <font-awesome-icon :icon="['fa-solid', 'fa-heart']" v-if="isLiked" />
-          <font-awesome-icon :icon="['fa-regular', 'fa-heart']" v-else />
+          <font-awesome-icon :icon="['fa-solid', 'fa-heart']" />
           <span class="card__like-count ml-3">{{ count }}</span>
         </li>
         <li class="card__undo-icon">
@@ -25,12 +24,11 @@
 </template>
 
 <script setup lang="ts">
-  const { id, content, name, likeCount, likedByUser } = defineProps<{
+  const { id, content, name, likeCount } = defineProps<{
     id: number;
     content: string;
     name: string;
     likeCount: number;
-    likedByUser: boolean;
   }>();
   const { getCurrentUser } = useAuth();
   const userData = reactive({
@@ -47,7 +45,6 @@
   };
   // 初期値の更新
   count.value = likeCount;
-  isLiked.value = likedByUser;
 
   // ユーザー情報をfirebaseから取得
   const currentUser = getCurrentUser();

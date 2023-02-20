@@ -8,9 +8,9 @@ import {
 } from 'firebase/auth'
 
 export const useAuth = () => {
-	const token = useState<string>('token', () => null)
+	const token = useState<string | null>('token', () => null)
 
-	function getCurrentUser(){
+	const getCurrentUser = () => {
 		try {
 			const auth = getAuth();
 			const currentUser = auth.currentUser
@@ -20,13 +20,13 @@ export const useAuth = () => {
 		}
 	}
 
-	async function register(name:string,email: string, password: string) {
+	async function register(name: string, email: string, password: string) {
 		try {
 			const auth = getAuth();
 			const userCredential = await createUserWithEmailAndPassword(auth, email, password)
 			const idToken = await userCredential.user.getIdToken()
 			await updateProfile(userCredential.user, {
-				displayName:name
+				displayName: name
 			})
 			token.value = idToken
 			return userCredential
@@ -96,16 +96,16 @@ export const useAuth = () => {
 				async (user) => {
 					try {
 						if (user) {
-								const idToken = await user.getIdToken();
-								token.value = idToken
-							} else {
-								token.value = null
-							}	
-							resolve()	
+							const idToken = await user.getIdToken();
+							token.value = idToken
+						} else {
+							token.value = null
+						}
+						resolve()
 					} catch (error) {
 						reject(error)
 					}
-				},(error)=>{
+				}, (error) => {
 					reject(error)
 				})
 		})
