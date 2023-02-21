@@ -9,6 +9,8 @@
             :content="post.content"
             :name="post.name"
             :like-count="post.likeCount"
+            :is-liked="checkIfPostIsLiked(post.isLikedBy, currentUser.id)"
+            :current-user="currentUser"
           />
         </NuxtLink>
       </div>
@@ -20,20 +22,15 @@
   definePageMeta({
     middleware: ["auth"],
   });
-  const { setPosts } = usePosts();
-  const { currentUser } = useCurrentUser();
-
+  const { setPosts, checkIfPostIsLiked } = usePosts();
+  const { getCurrentUser } = useCurrentUser();
   // postsをAPIから取得する
   const { data } = await useFetch("http://127.0.0.1:8000/api/v1/posts/");
   const newPosts = data.value.posts;
-  // const likes = data.value.likes;
-  // console.log(likes);
-  // const likedByUser = likes.filter(
-  //   (like) => like.user_id === currentUser.value.id
-  // );
-  // const isLikedByUser = likedByUser.filter((like) => like.post_id === 2);
-  // console.log(isLikedByUser);
 
+  const currentUser = await getCurrentUser();
+
+  // const posts = await setPosts(newPosts);
   const posts = setPosts(newPosts);
 
   // postsを後ろから並ばせる

@@ -4,6 +4,7 @@ export type Post = {
 	content: string,
 	name: string,
 	likeCount: number,
+	isLikedBy: [],
 }
 
 export const usePosts = () => {
@@ -19,10 +20,19 @@ export const usePosts = () => {
 		// 配列を追加
 		posts.value.push(newPost)
 	}
+	// likeがすでに押されているかをチェックする
+	const checkIfPostIsLiked = (isLikedBy: [], id: number) => {
+		if (isLikedBy.some((_post) => _post.user_id === id)) {
+			return true;
+		} else {
+			return false;
+		}
+	};
 	return {
 		posts: readonly(posts),
 		setPosts,
-		updatePosts
+		updatePosts,
+		checkIfPostIsLiked
 	}
 }
 

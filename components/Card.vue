@@ -4,7 +4,11 @@
       <span class="card__user-name">{{ name }}</span>
       <ul class="card__icon-group">
         <li class="card__like-icon" @click="clickLike(id)">
-          <font-awesome-icon :icon="['fa-solid', 'fa-heart']" />
+          <font-awesome-icon
+            :icon="['fa-solid', 'fa-heart']"
+            v-if="iniIsLiked"
+          />
+          <font-awesome-icon :icon="['fa-regular', 'fa-heart']" v-else />
           <span class="card__like-count ml-3">{{ count }}</span>
         </li>
         <li class="card__undo-icon">
@@ -24,18 +28,18 @@
 </template>
 
 <script setup lang="ts">
-  const { id, content, name, likeCount } = defineProps<{
+  import type { User } from "~~/composables/useCurrentUser";
+  const { id, content, name, likeCount, isLiked, currentUser } = defineProps<{
     id: number;
     content: string;
     name: string;
     likeCount: number;
+    isLiked: boolean;
+    currentUser: User;
   }>();
-  const { getCurrentUser } = useAuth();
-  const userData = reactive({
-    email: "",
-  });
+
   let count = ref(0);
-  const isLiked = ref(false);
+  let iniIsLiked = ref(false);
 
   const countUp = () => {
     return (count.value += 1);
@@ -43,38 +47,32 @@
   const countDown = () => {
     return (count.value -= 1);
   };
+
   // 初期値の更新
   count.value = likeCount;
-
-  // ユーザー情報をfirebaseから取得
-  const currentUser = getCurrentUser();
-  userData.email = currentUser!.email as string;
+  iniIsLiked.value = isLiked;
 
   const clickLike = async (id: number) => {
     try {
       // まだユーザーがlikeを教えていなかったら
-      if (!isLiked.value) {
-        const { data } = await useFetch(
-          `http://127.0.0.1:8000/api/v1/like/${id}`,
-          {
-            method: "POST",
-            body: userData,
-          }
-        );
-        isLiked.value = true;
+      if (!isLiked) {
+        await useFetch(`http://127.0.0.1:8000/api/v1/like/${id}`, {
+          method: "POST",
+          body: {
+            email: currentUser.email,
+          },
+        });
+        iniIsLiked.value = true;
         countUp();
-        console.log(data.value);
       } else {
-        const { data } = await useFetch(
-          `http://127.0.0.1:8000/api/v1/unlike/${id}`,
-          {
-            method: "DELETE",
-            body: userData,
-          }
-        );
-        isLiked.value = false;
+        await useFetch(`http://127.0.0.1:8000/api/v1/unlike/${id}`, {
+          method: "DELETE",
+          body: {
+            email: currentUser.email,
+          },
+        });
+        iniIsLiked.value = false;
         countDown();
-        console.log(data.value);
       }
     } catch (error) {
       console.log(error);

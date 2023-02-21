@@ -8,6 +8,8 @@
           :content="post!.content"
           :name="post!.name"
           :like-count="post!.likeCount"
+          :is-liked="checkIfPostIsLiked(post!.isLikedBy, currentUser.id)"
+          :current-user="currentUser"
         />
 
         <CommentInput />
@@ -33,6 +35,9 @@
   const router = useRoute();
   const post = ref<Post>();
 
+  const { checkIfPostIsLiked } = usePosts();
+  const { getCurrentUser } = useCurrentUser();
+  const currentUser = await getCurrentUser();
   // postsをAPIから取得する
   const { data } = await useFetch(
     `http://127.0.0.1:8000/api/v1/posts/${router.params.id}`

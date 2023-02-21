@@ -64,6 +64,7 @@
   });
   const { register } = useAuth();
   const router = useRouter();
+  const { updateCurrentUser } = useCurrentUser();
 
   const sendRegisterData = async () => {
     try {
@@ -76,10 +77,16 @@
       registerData["uid"] = userCredential!.user.uid;
       //laravelとの通信
       try {
-        await useFetch("http://127.0.0.1:8000/auth/register", {
-          method: "POST",
-          body: registerData,
-        });
+        const { data }: any = await useFetch(
+          "http://127.0.0.1:8000/auth/register",
+          {
+            method: "POST",
+            body: registerData,
+          }
+        );
+        // current userの更新
+        const userInfo = data.value.user[0];
+        updateCurrentUser(userInfo.id, userInfo.name, userInfo.email);
 
         // post一覧へ移動
         router.push("/posts");
