@@ -21,13 +21,19 @@
     middleware: ["auth"],
   });
   const { setPosts } = usePosts();
-  const { getCurrentUser } = useAuth();
-  const currentUser = getCurrentUser();
+  const { currentUser } = useCurrentUser();
+
   // postsをAPIから取得する
   const { data } = await useFetch("http://127.0.0.1:8000/api/v1/posts/");
   const newPosts = data.value.posts;
-  const likes = data.value.likes;
-  console.log(likes);
+  // const likes = data.value.likes;
+  // console.log(likes);
+  // const likedByUser = likes.filter(
+  //   (like) => like.user_id === currentUser.value.id
+  // );
+  // const isLikedByUser = likedByUser.filter((like) => like.post_id === 2);
+  // console.log(isLikedByUser);
+
   const posts = setPosts(newPosts);
 
   // postsを後ろから並ばせる

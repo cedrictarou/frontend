@@ -6,6 +6,7 @@ import {
 	createUserWithEmailAndPassword,
 	updateProfile
 } from 'firebase/auth'
+const { deleteCurrentUser } = useCurrentUser();
 
 export const useAuth = () => {
 	const token = useState<string | null>('token', () => null)
@@ -78,6 +79,7 @@ export const useAuth = () => {
 			const auth = getAuth()
 			await firebaseSignOut(auth)
 			token.value = null
+			deleteCurrentUser()
 			return true
 		} catch (error) {
 			console.error(error)

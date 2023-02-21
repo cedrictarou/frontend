@@ -80,6 +80,7 @@
           method: "POST",
           body: registerData,
         });
+
         // post一覧へ移動
         router.push("/posts");
       } catch (error) {
