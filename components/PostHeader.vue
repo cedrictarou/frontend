@@ -10,6 +10,7 @@
       position: sticky;
       top: 0;
       background-color: var(--color-main);
+      z-index: 100;
     }
     &__title {
       font-size: 2.5rem;

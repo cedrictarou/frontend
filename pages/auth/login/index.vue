@@ -52,8 +52,6 @@
 
   const sendLoginData = async () => {
     const userCredential = await login(loginData.email, loginData.password);
-    // ユーザーがすでに登録されていたら
-    userCredential && router.push("/posts");
 
     // laravelからユーザー情報を取得
     const { data }: any = await useFetch("http://127.0.0.1:8000/auth/login", {
@@ -63,7 +61,10 @@
 
     // current userの更新
     const userInfo = data.value.user[0];
-    updateCurrentUser(userInfo.id, userInfo.name, userInfo.email);
+    await updateCurrentUser(userInfo.id, userInfo.name, userInfo.email);
+
+    // post一覧へ移動
+    userCredential && router.push("/posts");
   };
 </script>
 

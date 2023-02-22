@@ -1,14 +1,20 @@
 <template>
   <div class="comment-card mt-5">
     <div class="comment-card__body">
-      <span class="comment-card__user-name">ゲストユーザー</span>
+      <span class="comment-card__user-name">{{ name }}</span>
       <p class="comment-card__text">
-        あそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょーあそびましょー
+        {{ comment }}
       </p>
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+  const { name, comment } = defineProps<{
+    name: string;
+    comment: string;
+  }>();
+</script>
 <style lang="scss" scoped>
   .comment-card {
     background-color: transparent;

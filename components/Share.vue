@@ -25,8 +25,6 @@
 </template>
 
 <script setup lang="ts">
-  import type { Post } from "@/composables/usePosts";
-
   const content = ref("");
   const schema = reactive({
     content: "required|max:120",
@@ -48,7 +46,7 @@
       body: sendData,
     });
     // postsをアップデート
-    const newPost = data.value.data as Post;
+    const newPost = data.value.data;
     updatePosts(newPost);
     // textareaの初期化
     content.value = "";
@@ -76,9 +74,5 @@
       background: transparent;
       border: 0.1rem solid var(--color-base);
     }
-  }
-  .error-message {
-    margin-left: 1rem;
-    color: #ff0000;
   }
 </style>

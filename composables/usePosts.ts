@@ -9,6 +9,9 @@ export type Post = {
 
 export const usePosts = () => {
 	const posts: Ref<Post[]> = useState('posts', () => [])
+	const getPosts = () => {
+		return posts.value
+	}
 	const setPosts = (newPosts: Post[]) => {
 		// postsの初期化
 		posts.value = []
@@ -30,6 +33,7 @@ export const usePosts = () => {
 	};
 	return {
 		posts: readonly(posts),
+		getPosts,
 		setPosts,
 		updatePosts,
 		checkIfPostIsLiked

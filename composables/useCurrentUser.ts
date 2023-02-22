@@ -8,6 +8,7 @@ export type User = {
 
 export const useCurrentUser = () => {
 	const currentUser: Ref<User | null> = useState('current-user', () => null)
+
 	const getCurrentUser = async () => {
 		const { $db } = useNuxtApp();
 		const user = await $db.collection('user').get()
@@ -19,19 +20,19 @@ export const useCurrentUser = () => {
 
 		return currentUser.value
 	}
-	const updateCurrentUser = (id: number, name: string, email: string) => {
+	const updateCurrentUser = async (id: number, name: string, email: string) => {
 		const { $db } = useNuxtApp();
 		currentUser.value = {
 			id: id,
 			name: name,
 			email: email,
 		}
-		$db.collection('user').set([{
+		await $db.collection('user').set([{
 			id: id,
 			name: name,
 			email: email,
 		}])
-		return currentUser.value
+		console.log('update current user')
 	}
 	const deleteCurrentUser = () => {
 		const { $db } = useNuxtApp();
