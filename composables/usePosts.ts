@@ -26,7 +26,7 @@ export const usePosts = () => {
 	}
 	// likeがすでに押されているかをチェックする
 	const checkIfPostIsLiked = (isLikedBy: [], id: number) => {
-		if (isLikedBy.some((_post) => _post.user_id === id)) {
+		if (isLikedBy.some((_post: any) => _post.user_id === id)) {
 			return true;
 		} else {
 			return false;

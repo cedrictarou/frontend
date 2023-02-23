@@ -20,7 +20,7 @@
       <!-- comment一覧 -->
       <div
         class="comment__bottom mt-10"
-        v-for="comment in comments"
+        v-for="comment in reverseComments"
         :key="comment.id"
       >
         <CommentCard :name="comment.user.name" :comment="comment.comment" />
@@ -31,32 +31,30 @@
 
 <script setup lang="ts">
   import type { Post } from "~/composables/usePosts";
-
-  type Comment = {
-    id: number;
-    comment: string;
-    user: {
-      id: number;
-      name: string;
-    };
-  };
+  // import type { Comment } from "~/composables/useComment";
 
   definePageMeta({
     middleware: "auth",
   });
   const router = useRoute();
-  const post = ref<Post>();
-  const comments = ref<Comment[]>();
-
   const { checkIfPostIsLiked } = usePosts();
   const { getCurrentUser } = useCurrentUser();
+  const { setComments, getComments } = useComment();
   const currentUser = await getCurrentUser();
+
+  // 初期値
+  const post = ref<Post | undefined>();
+  // const comments = ref<Comment[] | undefined>();
+  const comments = computed(() => {
+    const comments = getComments();
+    return comments;
+  });
   // postsをAPIから取得する
   const { data }: any = await useFetch(
     `http://127.0.0.1:8000/api/v1/posts/${router.params.id}`
   );
-  // 存在しないページのとき
   if (!data.value) {
+    // 存在しないページのとき
     throw createError({
       statusCode: 404,
       message: "お探しの記事が見つかりませんでした",
@@ -64,10 +62,14 @@
     });
   } else {
     post.value = data.value.post;
-    comments.value = data.value.comments;
+    setComments(data.value.comments);
   }
+
+  const reverseComments = computed(() => {
+    return comments.value!.slice().reverse();
+  });
   const isUser = computed(() => {
-    if (post.value.userId === currentUser.id) {
+    if (post.value!.userId === currentUser.id) {
       return true;
     } else {
       return false;
