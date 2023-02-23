@@ -3,6 +3,7 @@ export type Post = {
 	id: number,
 	content: string,
 	name: string,
+	userId: number,
 	likeCount: number,
 	isLikedBy: [],
 }

@@ -1,7 +1,6 @@
 <template>
   <div class="auth__container">
     <ValidationForm @submit="sendRegisterData" :validation-schema="schema">
-      <h2 class="title mb-5">新規登録</h2>
       <div class="input-validate">
         <ValidationField
           name="name"
@@ -35,7 +34,7 @@
         <ValidationErrorMessage name="password" class="error-message" />
       </div>
 
-      <div class="flex justify-center">
+      <div class="flex justify-center pt-5">
         <button class="btn" type="submit">新規登録</button>
       </div>
     </ValidationForm>
@@ -107,12 +106,13 @@
 
 <style lang="scss" scoped>
   .auth__container {
-    background-color: var(--color-base);
+    background-color: var(--color-main);
     margin: 0 auto;
     max-width: 400px;
     padding: 2rem;
     border-radius: 1rem;
     margin-top: 100px;
+    // border: solid 0.1rem var(--color-base);
   }
   .input {
     color: var(--color-black);

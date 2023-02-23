@@ -1,7 +1,9 @@
 <template>
   <header class="header">
     <div class="header__container">
-      <Logo />
+      <nuxt-link to="/posts">
+        <Logo />
+      </nuxt-link>
       <Navbar />
     </div>
   </header>

@@ -11,6 +11,7 @@
           :is-liked="checkIfPostIsLiked(post!.isLikedBy, currentUser.id)"
           :current-user="currentUser"
           :showShareIcon="false"
+          :showXmarkIcon="isUser"
         />
 
         <CommentInput />
@@ -65,6 +66,13 @@
     post.value = data.value.post;
     comments.value = data.value.comments;
   }
+  const isUser = computed(() => {
+    if (post.value.userId === currentUser.id) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 </script>
 
 <style lang="scss" scoped>

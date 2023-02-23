@@ -3,17 +3,18 @@
     <div class="post__container">
       <PostHeader />
       <div class="card-group" v-for="post in reversedPosts" :key="post.id">
-        <!-- <NuxtLink :to="`/posts/${post.id}`"> -->
-        <Card
-          :id="post.id"
-          :content="post.content"
-          :name="post.name"
-          :like-count="post.likeCount"
-          :is-liked="checkIfPostIsLiked(post.isLikedBy, currentUser!.id)"
-          :current-user="currentUser!"
-          :showShareIcon="true"
-        />
-        <!-- </NuxtLink> -->
+        <NuxtLink :to="`/posts/${post.id}`">
+          <Card
+            :id="post.id"
+            :content="post.content"
+            :name="post.name"
+            :like-count="post.likeCount"
+            :is-liked="checkIfPostIsLiked(post.isLikedBy, currentUser!.id)"
+            :current-user="currentUser!"
+            :showShareIcon="true"
+            :showXmarkIcon="false"
+          />
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -37,7 +38,6 @@
   // postsをAPIから取得する
   const { data }: any = await useFetch("http://127.0.0.1:8000/api/v1/posts/");
   setPosts(data.value.posts);
-
   const posts = computed(() => {
     const posts = getPosts();
     return posts;

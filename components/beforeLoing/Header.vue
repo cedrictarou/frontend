@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="header__container p-5">
+    <div class="header__container p-10">
       <Logo />
       <BeforeLoingNavbar />
     </div>

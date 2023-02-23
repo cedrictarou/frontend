@@ -1,9 +1,9 @@
 :root {
-	--color-main: #100436;
-	--color-accent: #3200ca;
-	--color-base: #fff;
+	--color-main: #1d0765;
+	--color-accent: #f33754;
+	--color-base: #ebebe8;
 	--color-black: #000;
-	--color-grey: #6d6d6d;
+	--color-grey: #ebebe8;
 }
 
 html {
@@ -26,6 +26,14 @@ input {
 
 input:focus {
 	outline: .1rem solid var(--color-accent);
+}
+
+li {
+	transition: all .3s;
+}
+
+li:hover {
+	color: var(--color-accent);
 }
 
 /* 共通のクラス */

@@ -3,11 +3,6 @@
     <div class="share__container">
       <ValidationForm @submit="sendContent" :validation-schema="schema">
         <label class="share__label mb-2" for="share_textarea">シェア</label>
-        <!-- <ValidationErrorMessage
-          as="span"
-          name="content"
-          class="error-message"
-        /> -->
         <ValidationField
           class="share__textarea mb-5"
           id="share_textarea"
@@ -41,13 +36,22 @@
       content: content.value,
     };
     // laravelに投稿追加のデータを送る
-    const { data }: any = await useFetch("http://127.0.0.1:8000/api/v1/posts", {
-      method: "POST",
-      body: sendData,
-    });
+    const { error, data }: any = await useFetch(
+      "http://127.0.0.1:8000/api/v1/posts",
+      {
+        method: "POST",
+        body: sendData,
+      }
+    );
+
+    if (error.value?.status === 400) {
+      throw new Error("Failed");
+    }
+
     // postsをアップデート
     const newPost = data.value.data;
     updatePosts(newPost);
+
     // textareaの初期化
     content.value = "";
 

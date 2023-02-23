@@ -12,7 +12,6 @@
         />
         <button class="btn">コメント</button>
       </div>
-      <!-- <ValidationErrorMessage as="p" name="comment" class="error-message" /> -->
     </ValidationForm>
   </div>
 </template>
